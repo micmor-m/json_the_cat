@@ -1,13 +1,11 @@
 const request = require('request');
 
-//take the arguments from the command line without the first two words, and put them into an array 9each word an element)
-let breedName = process.argv.slice(2);
-//console.log(breedName[0]);
 
-const req = (cb) => {
+
+const fetchBreedDescription = (breedName, cb) => {
   //send request to the URL
   //breedName[0] is the breed name typed by user
-  request("https://api.thecatapi.com/v1/breeds/search?q=" + breedName[0] , (error, response, body) => {
+  request("https://api.thecatapi.com/v1/breeds/search?q=" + breedName, (error, response, body) => {
 
     //parse the sting from the request in to an object
     const data = JSON.parse(body);
@@ -32,19 +30,13 @@ const req = (cb) => {
       } else {
         //console.log(typeof data);
         //let Obj = data.shift()
-        cb(null, Obj);
+        //console.log(Obj.description);
+        cb(null, Obj.description);
       }
     }
   });
 };
 
-//cal the req function and pass the function itself as call back
-req((err, cat) => {
-  if (err) {
-    console.log(err);
-    return; // exiting the function
-  }
-  console.log(cat.description);
-});
+module.exports = { fetchBreedDescription };
   
  
